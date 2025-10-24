@@ -1073,7 +1073,7 @@ void GfxOpenGLS::drawEMIModelFace(const EMIModel* model, const EMIMeshFace* face
 	actorShader->use();
 	bool textured = face->_hasTexture && !_currentShadowArray;
 	actorShader->setUniform("textured", textured ? GL_TRUE : GL_FALSE);
-	actorShader->setUniform("useVertexAlpha", _selectedTexture->_hasAlpha);
+	actorShader->setUniform("useVertexAlpha", _selectedTexture->_hasAlpha || face->_flags & EMIMeshFace::kAlphaBlend);
 	actorShader->setUniform1f("meshAlpha", (model->_meshAlphaMode == Actor::AlphaReplace) ? model->_meshAlpha : 1.0f);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, face->_indicesEBO);

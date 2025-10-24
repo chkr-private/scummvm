@@ -742,7 +742,7 @@ void GfxOpenGL::drawEMIModelFace(const EMIModel *model, const EMIMeshFace *face)
 			byte r = (byte)(model->_colorMap[index].r * lighting.x());
 			byte g = (byte)(model->_colorMap[index].g * lighting.y());
 			byte b = (byte)(model->_colorMap[index].b * lighting.z());
-			byte a = (int)(alpha * (model->_meshAlphaMode == Actor::AlphaReplace ? model->_colorMap[index].a * _currentActor->getLocalAlpha(index) : 255.f));
+			byte a = (byte)(alpha * ((model->_meshAlphaMode == Actor::AlphaReplace || face->_flags & EMIMeshFace::kAlphaBlend) ? model->_colorMap[index].a * _currentActor->getLocalAlpha(index) : 255.f));
 			glColor4ub(r, g, b, a);
 		}
 
