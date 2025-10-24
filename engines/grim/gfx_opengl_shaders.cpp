@@ -776,7 +776,7 @@ void GfxOpenGLS::startActorDraw(const Actor *actor) {
 			shaders[i]->setUniform("useVertexAlpha", GL_FALSE);
 			shaders[i]->setUniform("uniformColor", color);
 			shaders[i]->setUniform1f("alphaRef", 0.0f);
-			shaders[i]->setUniform1f("meshAlpha", 1.0f);
+			shaders[i]->setUniform1f("meshAlpha", actor->getEffectiveAlpha());
 		}
 	} else {
 		Math::Matrix4 modelMatrix = quat.toMatrix();
