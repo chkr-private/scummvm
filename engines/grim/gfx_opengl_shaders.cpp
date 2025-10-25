@@ -1066,7 +1066,7 @@ void GfxOpenGLS::drawEMIModelFace(const EMIModel* model, const EMIMeshFace* face
 		glEnable(GL_BLEND);
 	const EMIModelUserData *mud = (const EMIModelUserData *)model->_userData;
 	OpenGL::Shader *actorShader;
-	if ((face->_flags & EMIMeshFace::kNoLighting) ? false : _lightsEnabled)
+	if (((face->_flags & EMIMeshFace::kNoLighting) ? false : _lightsEnabled) && !_currentShadowArray)
 		actorShader = mud->_shaderLights;
 	else
 		actorShader = mud->_shader;
@@ -1087,7 +1087,7 @@ void GfxOpenGLS::drawMesh(const Mesh *mesh) {
 	if (!mud)
 		return;
 	OpenGL::Shader *actorShader;
-	if (_lightsEnabled && !isShadowModeActive())
+	if (_lightsEnabled && !isShadowModeActive() && !_currentShadowArray )
 		actorShader = mud->_shaderLights;
 	else
 		actorShader = mud->_shader;
