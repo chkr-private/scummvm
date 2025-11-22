@@ -885,7 +885,7 @@ void GrimEngine::updateDisplayScene() {
 		// Draw Primitives
 		_iris->draw();
 
-		g_movie->drawMovieSubtitle();
+		drawMovieSubtitle();
 
 	} else if (_mode == NormalMode || _mode == OverworldMode) {
 		updateNormalMode();

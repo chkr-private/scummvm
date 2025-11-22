@@ -83,9 +83,6 @@ public:
 	virtual int32 getMovieTime() { return (int32)_movieTime; }
 	virtual Common::String getCurrSubtitle() { Common::StackLock lock(_frameMutex); return _currSubtitle; }
 
-	/* Draw the subtitles, guarded by _drawMutex */
-	void drawMovieSubtitle();
-
 	/**
 	 * Saves the state of the video to a savegame
 	 * @param state         The state to save to
