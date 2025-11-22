@@ -54,15 +54,17 @@ bool BinkPlayer::bikCheck(Common::SeekableReadStream *stream, uint32 pos) {
 }
 
 void BinkPlayer::deinit() {
-	g_grim->setMovieSubtitle(nullptr);
+	_currSubtitle = "";
 	MoviePlayer::deinit();
 }
 
 void BinkPlayer::handleFrame() {
 	MoviePlayer::handleFrame();
 
-	if (!_showSubtitles || _subtitleIndex == _subtitles.end())
+	if (!_showSubtitles || _subtitleIndex == _subtitles.end()) {
+		_currSubtitle = "";
 		return;
+	}
 
 	unsigned int startFrame, endFrame, curFrame;
 	startFrame = _subtitleIndex->_startFrame;
@@ -70,24 +72,12 @@ void BinkPlayer::handleFrame() {
 	curFrame = _videoDecoder->getCurFrame();
 	if (startFrame <= curFrame && curFrame <= endFrame) {
 		if (!_subtitleIndex->active) {
-			TextObject *textObject = new TextObject();
-			textObject->setDefaults(&g_grim->_sayLineDefaults);
-			Color c(255, 255, 255);
-			textObject->setFGColor(c);
-			textObject->setIsSpeech();
-			if (g_grim->getMode() == GrimEngine::SmushMode) {
-				// TODO: How to center exactly and put the text exactly
-				// at the bottom  even if there are multiple lines?
-				textObject->setX(640 / 2);
-				textObject->setY(40);
-			}
-			textObject->setText(g_localizer->localize(_subtitleIndex->_textId.c_str()), false);
-			g_grim->setMovieSubtitle(textObject);
+			_currSubtitle = g_localizer->localize(_subtitleIndex->_textId.c_str());
 			_subtitleIndex->active = true;
 		}
 	} else if (endFrame < curFrame) {
 		if (_subtitleIndex->active) {
-			g_grim->setMovieSubtitle(nullptr);
+			_currSubtitle = "";
 			_subtitleIndex->active = false;
 			_subtitleIndex++;
 		}

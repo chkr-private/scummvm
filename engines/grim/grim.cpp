@@ -848,6 +848,23 @@ void GrimEngine::updateDisplayScene() {
 
 	if (_mode == SmushMode) {
 		if (g_movie->isPlaying()) {
+			Common::String newMovieSubtitle = g_movie->getCurrSubtitle();
+			if (newMovieSubtitle != _currMovieSubtitle) {
+				if (newMovieSubtitle == "") {
+					setMovieSubtitle(nullptr);
+				} else {
+					TextObject *textObject = new TextObject();
+					textObject->setDefaults(&g_grim->_sayLineDefaults);
+					Color c(255, 255, 255);
+					textObject->setFGColor(c);
+					textObject->setIsSpeech();
+					textObject->setX(640 / 2);
+					textObject->setY(40);
+					textObject->setText(newMovieSubtitle, false);
+					setMovieSubtitle(textObject);
+				}
+				_currMovieSubtitle = newMovieSubtitle;
+			}
 			_movieTime = g_movie->getMovieTime();
 			if (g_movie->isUpdateNeeded()) {
 				g_driver->prepareMovieFrame(g_movie->getDstSurface(), g_movie->getDstPalette());
@@ -1650,6 +1667,11 @@ void GrimEngine::setMovieSetup() {
 }
 
 void GrimEngine::setMode(EngineMode mode) {
+	if (_mode == SmushMode && mode != SmushMode) {
+		// SmushMode is left
+		setMovieSubtitle(nullptr);
+		_currMovieSubtitle = "";
+	}
 	_mode = mode;
 	invalidateActiveActorsList();
 }

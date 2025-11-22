@@ -51,6 +51,7 @@ protected:
 	bool _videoLooping;
 	bool _timerStarted;
 	int _x, _y;
+	Common::String _currSubtitle;
 
 public:
 	MoviePlayer();
@@ -80,6 +81,7 @@ public:
 	virtual int getFrame() { return _frame; }
 	virtual void clearUpdateNeeded() { _updateNeeded = false; }
 	virtual int32 getMovieTime() { return (int32)_movieTime; }
+	virtual Common::String getCurrSubtitle() { Common::StackLock lock(_frameMutex); return _currSubtitle; }
 
 	/* Draw the subtitles, guarded by _drawMutex */
 	void drawMovieSubtitle();

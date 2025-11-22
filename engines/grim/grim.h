@@ -247,6 +247,7 @@ protected:
 	bool _setupChanged = true;
 	// This holds the name of the setup in which the movie must be drawed
 	Common::String _movieSetup;
+	Common::String _currMovieSubtitle;
 
 	unsigned _frameStart = 0, _frameTime = 0, _movieTime = 0;
 	int _prevSmushFrame = 0;
